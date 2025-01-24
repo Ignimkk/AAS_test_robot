@@ -1,0 +1,55 @@
+{
+    "assetAdministrationShells": [
+        {
+            "idShort": "RobotArmAAS",
+            "administration": {
+                "version": "1",
+                "revision": "0"
+            },
+            "id": "urn:aas:id:example:robot:arm:aas:1",
+            "submodels": [
+                {
+                    "keys": [
+                        {
+                            "type": "Submodel",
+                            "value": "urn:aas:id:example:robot:arm:submodel:1"
+                        }
+                    ]
+                }
+            ],
+            "modelType": "AssetAdministrationShell"
+        }
+    ],
+    "submodels": [
+        {
+            "idShort": "RobotArmSubmodel",
+            "id": "urn:aas:id:example:robot:arm:submodel:1",
+            "submodelElements": [
+                {
+                    "idShort": "joint_angles",
+                    "category": "Parameter",
+                    "valueType": "xs:string",
+                    "modelType": "Property"
+                },
+                {
+                    "idShort": "end_effector_position",
+                    "category": "Parameter",
+                    "valueType": "xs:string",
+                    "modelType": "Property"
+                },
+                {
+                    "idShort": "state",
+                    "valueType": "xs:string",
+                    "modelType": "Property"
+                },
+                {
+                    "idShort": "move_to_position",
+                    "modelType": "Operation"
+                }
+            ],
+            "kind": "Instance",
+            "modelType": "Submodel"
+        }
+    ],
+    "conceptDescriptions": []
+}

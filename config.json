@@ -1,0 +1,80 @@
+{
+    "endpoints": [
+        {
+            "@class": "de.fraunhofer.iosb.ilt.faaast.service.endpoint.http.HttpEndpoint",
+            "port": 8080,
+            "corsEnabled": true
+        },
+        {
+            "@class": "de.fraunhofer.iosb.ilt.faaast.service.endpoint.opcua.OpcUaEndpoint",
+            "tcpPort": 8081
+        }
+    ],
+    "persistence": {
+        "@class": "de.fraunhofer.iosb.ilt.faaast.service.persistence.memory.PersistenceInMemory"
+    },
+    "messageBus": {
+        "@class": "de.fraunhofer.iosb.ilt.faaast.service.messagebus.internal.MessageBusInternal"
+    },
+    "assetConnections": [
+        {
+            "@class": "de.fraunhofer.iosb.ilt.faaast.service.assetconnection.opcua.OpcUaAssetConnection",
+            "host": "opc.tcp://localhost:12686/milo",
+            "valueProviders": {
+                "(Submodel)urn:aas:id:example:robot:arm:submodel:1, (Property)joint_angles": {
+                    "nodeId": "nsu=robot:arm;s=JointAngles"
+                },
+                "(Submodel)urn:aas:id:example:robot:arm:submodel:1, (Property)end_effector_position": {
+                    "nodeId": "nsu=robot:arm;s=EndEffectorPosition"
+                }
+            },
+            "operationProviders": {
+                "(Submodel)urn:aas:id:example:robot:arm:submodel:1, (Operation)move_to_position": {
+                    "nodeId": "nsu=robot:arm;s=MoveToPosition",
+                    "inputArgumentMapping": [
+                        {
+                            "idShort": "target_position",
+                            "argumentName": "TargetPosition"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "@class": "de.fraunhofer.iosb.ilt.faaast.service.assetconnection.mqtt.MqttAssetConnection",
+            "serverUri": "tcp://localhost:1883",
+            "valueProviders": {
+                "(Submodel)urn:aas:id:example:robot:arm:submodel:1, (Property)state": {
+                    "topic": "robot/arm/state",
+                    "format": "JSON",
+                    "query": "$.state"
+                }
+            },
+            "subscriptionProviders": {
+                "(Submodel)urn:aas:id:example:robot:arm:submodel:1, (Property)joint_angles": {
+                    "topic": "robot/arm/joint_angles",
+                    "format": "JSON",
+                    "query": "$.angles"
+                }
+            }
+        },
+        {
+            "@class": "de.fraunhofer.iosb.ilt.faaast.service.assetconnection.http.HttpAssetConnection",
+            "baseUrl": "http://localhost:5001",
+            "valueProviders": {
+                "(Submodel)urn:aas:id:example:robot:arm:submodel:1, (Property)end_effector_position": {
+                    "path": "/end_effector_position",
+                    "format": "JSON",
+                    "query": "$.position"
+                }
+            },
+            "operationProviders": {
+                "(Submodel)urn:aas:id:example:robot:arm:submodel:1, (Operation)move_to_position": {
+                    "path": "/move_to_position",
+                    "format": "JSON",
+                    "template": "{\"target_position\": ${target_position}}"
+                }
+            }
+        }
+    ]
+}
